@@ -1,60 +1,17 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css'
-// import * as util_request from './request/util.request'
-// import * as websocket_client from './request/client.websocket'
 
-// function App() {
-//   const [count, setCount] = useState(0)
-//   const [title, setTitle] = useState("");
-
-//   util_request.getTitle().then(result => {
-//     console.log(title)
-//     setTitle(result);
-//   })
-
-//   return (
-//     <>
-//       {/* <div>
-//         <a href="https://vitejs.dev" target="_blank">
-//           <img src={viteLogo} className="logo" alt="Vite logo" />
-//         </a>
-//         <a href="https://react.dev" target="_blank">
-//           <img src={reactLogo} className="logo react" alt="React logo" />
-//         </a>
-//       </div> */}
-//       <h1>{title}</h1>
-//       <div className="card">
-//         <button onClick={() => {
-//           setCount((count) => count + 1);
-//           websocket_client.send("Current Count is: " + count);
-//         }}>
-//           count is {count}
-//         </button>
-//         <p>
-//           Edit <code>src/App.jsx</code> and save to test HMR
-//         </p>
-//       </div>
-//       <p className="read-the-docs">
-//         Click on the Vite and React logos to learn more
-//       </p>
-//     </>
-//   )
-// }
-
-// export default App
-// src/App.jsx
 import React, { useState } from 'react';
 import Login from './components/Login';
 import Register from './components/Register';
 import CreateCircle from './components/CreateCircle';
 import CircleList from './components/CircleList';
 import Circle from './components/Circle';
+import * as util_request from './request/util.request'
+import * as websocket_client from './request/client.websocket'
 
 const App = () => {
   const [user, setUser] = useState(null); // 用户状态，如果登录成功会有用户信息
   const [currentCircleId, setCurrentCircleId] = useState(null); // 当前选择的圈子ID
+  const [title, setTitle] = useState("");
 
   const handleLogin = (user) => {
     setUser(user); // 设置登录后的用户信息
@@ -92,13 +49,18 @@ const App = () => {
     }
   };
   
+
   // 在App组件中传递给CreateCircle组件
   <CreateCircle onCreateCircle={handleCreateCircle} />
   
+  util_request.getTitle().then(result => {
+    console.log(title)
+    setTitle(result);
+  })
 
   return (
     <div>
-      <h1>Circle Social App</h1>
+      <h1>{title}</h1>
       {!user ? (
         <div>
           <Login onLogin={handleLogin} />

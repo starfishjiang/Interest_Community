@@ -5,7 +5,7 @@ export class HomeController {
 
   @Get('/')
   public async home(): Promise<any> {
-    return "Hi, 欢迎使用兴趣圈";
+    return "欢迎使用兴趣圈！";
   }
 
 }
