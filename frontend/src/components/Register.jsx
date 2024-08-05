@@ -21,16 +21,16 @@ const Register = ({ onRegister }) => {
         // const newUser = await response.json();
         // onRegister(newUser); // Assuming `onRegister` is a callback to handle successful registration
       } else {
-        console.error('Registration failed');
+        console.error('Register failed');
       }
     } catch (error) {
-      console.error('Error during registration:', error);
+      console.error('User already exists.', error);
     }
   };
 
   return (
     <div>
-      <h2>Register</h2>
+      <h2>注册</h2>
       <input
         type="text"
         placeholder="Username"
@@ -43,7 +43,7 @@ const Register = ({ onRegister }) => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={handleRegister}>Register</button>
+      <button onClick={handleRegister}>确认</button>
     </div>
   );
 };

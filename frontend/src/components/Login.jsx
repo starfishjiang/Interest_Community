@@ -18,10 +18,17 @@ const Login = ({ onLogin }) => {
       });
 
       if (response.ok) {
-        const user = await response.json();
-        onLogin(user);
+        const data = await response.json();
+        if (data.success) { 
+          console.log('Login succeed');
+          onLogin(data.data); 
+        } else {
+          // 登录失败，显示错误信息
+          console.error(`Login failed: ${data.message}`);
+        }
       } else {
-        console.error('Login failed');
+        // HTTP 请求失败，显示网络错误信息等
+        console.error('HTTP request failed');
       }
     } catch (error) {
       console.error('Error during login:', error);
@@ -30,7 +37,7 @@ const Login = ({ onLogin }) => {
 
   return (
     <div>
-      <h2>Login</h2>
+      <h2>登录</h2>
       <input
         type="text"
         placeholder="Username"
@@ -43,7 +50,7 @@ const Login = ({ onLogin }) => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={handleLogin}>Login</button>
+      <button onClick={handleLogin}>确认</button>
     </div> 
   );
 };

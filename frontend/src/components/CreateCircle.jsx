@@ -1,6 +1,8 @@
 // src/components/CreateCircle.jsx
 import React, { useState } from 'react';
 
+const base = "http://127.0.0.1:7002/community/create"
+
 const CreateCircle = ({ onCreateCircle }) => {
   const [circleName, setCircleName] = useState('');
 
@@ -27,14 +29,14 @@ const CreateCircle = ({ onCreateCircle }) => {
 
   return (
     <div>
-      <h2>Create Circle</h2>
+      <h2>创建兴趣圈</h2>
       <input
         type="text"
         placeholder="Circle Name"
         value={circleName}
         onChange={(e) => setCircleName(e.target.value)}
       />
-      <button onClick={handleCreateCircle}>Create Circle</button>
+      <button onClick={handleCreateCircle}>确认</button>
     </div>
   );
 };

@@ -1,6 +1,8 @@
 // src/components/CircleList.jsx
 import React, { useState, useEffect } from 'react';
 
+const base = "http://127.0.0.1:7002/community/fetch"
+
 const CircleList = ({ user }) => {
   const [circles, setCircles] = useState([]);
 
@@ -29,7 +31,7 @@ const CircleList = ({ user }) => {
 
   return (
     <div>
-      <h2>Circle List</h2>
+      <h2>浏览兴趣圈</h2>
       <ul>
         {circles.map(circle => (
           <li key={circle.id}>

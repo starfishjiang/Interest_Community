@@ -14,9 +14,9 @@ const App = () => {
   const [title, setTitle] = useState("");
 
   const handleLogin = (user) => {
-    setUser(user); // 设置登录后的用户信息
+    setUser(user); // 设置登录后的用户信息;
   };
-
+  
   const handleLogout = () => {
     setUser(null); // 登出操作，清空用户信息
     setCurrentCircleId(null); // 同时清空当前选择的圈子ID
@@ -54,13 +54,12 @@ const App = () => {
   <CreateCircle onCreateCircle={handleCreateCircle} />
   
   util_request.getTitle().then(result => {
-    console.log(title)
     setTitle(result);
   })
 
   return (
     <div>
-      <h1>{title}</h1>
+      <h1>{title}{user ? `, ${user.name}` : ''}</h1>
       {!user ? (
         <div>
           <Login onLogin={handleLogin} />
@@ -68,7 +67,7 @@ const App = () => {
         </div>
       ) : (
         <div>
-          <button onClick={handleLogout}>Logout</button>
+          <button onClick={handleLogout}>注销</button>
           <CreateCircle onCreateCircle={handleCreateCircle} />
           <CircleList user={user} onSelectCircle={handleSelectCircle} />
           {currentCircleId && <Circle circleId={currentCircleId} user={user} />}
