@@ -1,12 +1,9 @@
 export class Community {
 
-    private name: string;
+    name: string;
 
-    creator: string;
-
-    constructor(name: string, creator: string) {
+    constructor(name: string) {
         this.name = name;
-        this.creator = creator;
     }
 
     public getName() {

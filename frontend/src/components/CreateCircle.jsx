@@ -8,7 +8,7 @@ const CreateCircle = ({ onCreateCircle }) => {
 
   const handleCreateCircle = async () => {
     try {
-      const response = await fetch('/api/circles', {
+      const response = await fetch(base, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -17,10 +17,17 @@ const CreateCircle = ({ onCreateCircle }) => {
       });
 
       if (response.ok) {
-        const newCircle = await response.json();
-        onCreateCircle(newCircle);
+        const data = await response.json();
+        if (data.success) { 
+          console.log('Community creation succeed');
+        //   onLogin(data.data); 
+        } else {
+          // 登录失败，显示错误信息
+          console.error(`Creation failed: ${data.message}`);
+        }
       } else {
-        console.error('Circle creation failed');
+        // HTTP 请求失败，显示网络错误信息等
+        console.error('HTTP request failed');
       }
     } catch (error) {
       console.error('Error creating circle:', error);

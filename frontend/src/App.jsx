@@ -1,23 +1,31 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Login from './components/Login';
 import Register from './components/Register';
 import CreateCircle from './components/CreateCircle';
-import CircleList from './components/CircleList';
+import CommunityList from './components/CommunityList';
 import Circle from './components/Circle';
 import * as util_request from './request/util.request'
-import * as websocket_client from './request/client.websocket'
 
 const App = () => {
   const [user, setUser] = useState(null); // 用户状态，如果登录成功会有用户信息
   const [currentCircleId, setCurrentCircleId] = useState(null); // 当前选择的圈子ID
   const [title, setTitle] = useState("");
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
   const handleLogin = (user) => {
+    localStorage.setItem('user', JSON.stringify(user));
     setUser(user); // 设置登录后的用户信息;
   };
   
   const handleLogout = () => {
+    localStorage.removeItem('user');
     setUser(null); // 登出操作，清空用户信息
     setCurrentCircleId(null); // 同时清空当前选择的圈子ID
   };
@@ -69,7 +77,7 @@ const App = () => {
         <div>
           <button onClick={handleLogout}>注销</button>
           <CreateCircle onCreateCircle={handleCreateCircle} />
-          <CircleList user={user} onSelectCircle={handleSelectCircle} />
+          <CommunityList user={user} onSelectCircle={handleSelectCircle} />
           {currentCircleId && <Circle circleId={currentCircleId} user={user} />}
         </div>
       )}
