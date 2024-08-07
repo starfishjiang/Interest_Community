@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 const base = "http://127.0.0.1:7002/community/fetch"
 
-const CommunityList = ({ user }) => {
+const CommunityList = ({ user, onSelectCircle }) => {
   const [Communities, setCommunities] = useState([]);
 
   useEffect(() => {
@@ -27,7 +27,11 @@ const CommunityList = ({ user }) => {
     };
 
     fetchCommunities();
-  }, [user]);
+  }, [user]); 
+  const handleEnterCircle = (name) => {
+    // 这里可以执行进入圈子的逻辑，例如导航到相应的圈子页面等
+    onSelectCircle(name);
+  };
 
   return (
     <div>
@@ -35,7 +39,8 @@ const CommunityList = ({ user }) => {
       <ul>
         {Communities.map((community, index) => (
           <li key={index}>
-            {community.name}
+            {community.name+'  '}
+            <button onClick={() => handleEnterCircle(community.name)}>进入</button>
           </li>
         ))}
       </ul>
@@ -44,3 +49,6 @@ const CommunityList = ({ user }) => {
 };
 
 export default CommunityList;
+
+
+

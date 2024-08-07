@@ -4,7 +4,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import CreateCircle from './components/CreateCircle';
 import CommunityList from './components/CommunityList';
-import Circle from './components/Circle';
+import Community from './components/Community';
 import * as util_request from './request/util.request'
 
 const App = () => {
@@ -16,6 +16,10 @@ const App = () => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
+    }
+    const storedCircleId = localStorage.getItem('currentCircleId');
+    if (storedCircleId) {
+      setCurrentCircleId(JSON.parse(storedCircleId));
     }
   }, []);
 
@@ -31,6 +35,7 @@ const App = () => {
   };
 
   const handleSelectCircle = (circleId) => {
+    localStorage.setItem('currentCircleId', JSON.stringify(circleId));
     setCurrentCircleId(circleId); // 选择某个圈子后，更新当前圈子ID
   };
 
@@ -68,7 +73,7 @@ const App = () => {
   return (
     <div>
       <h1>{title}{user ? `, ${user.name}` : ''}</h1>
-      {!user ? (
+      {!user ? ( 
         <div>
           <Login onLogin={handleLogin} />
           <Register />
@@ -78,7 +83,7 @@ const App = () => {
           <button onClick={handleLogout}>注销</button>
           <CreateCircle onCreateCircle={handleCreateCircle} />
           <CommunityList user={user} onSelectCircle={handleSelectCircle} />
-          {currentCircleId && <Circle circleId={currentCircleId} user={user} />}
+          {currentCircleId && <Community circleId={currentCircleId} user={user} />}
         </div>
       )}
     </div>
@@ -86,5 +91,3 @@ const App = () => {
 };
 
 export default App;
-
-

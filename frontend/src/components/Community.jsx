@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import CreatePost from './CreatePost';
 
-const Circle = ({ circleId, user }) => {
+const Community = ({ circleId, user }) => {
   const [posts, setPosts] = useState([]);
   const [newPostTitle, setNewPostTitle] = useState('');
   const [newPostContent, setNewPostContent] = useState('');
@@ -76,4 +76,4 @@ const Circle = ({ circleId, user }) => {
   );
 };
 
-export default Circle;
+export default Community;
