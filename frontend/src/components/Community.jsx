@@ -7,12 +7,13 @@ const Community = ({ circleId, user }) => {
   const [newPostTitle, setNewPostTitle] = useState('');
   const [newPostContent, setNewPostContent] = useState('');
 
+  const base = "http://127.0.0.1:7002/posts/fetch"
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`/api/circles/${circleId}/posts`, {
+        const response = await fetch(base, {
           headers: {
-            Authorization: `Bearer ${user.token}`,
+            Authorization: `Bearer ${user.name}`,
           },
         });
 
@@ -30,29 +31,7 @@ const Community = ({ circleId, user }) => {
     fetchPosts();
   }, [circleId, user]);
 
-  const handleCreatePost = async () => {
-    try {
-      const response = await fetch(`/api/circles/${circleId}/posts`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({ title: newPostTitle, content: newPostContent }),
-      });
 
-      if (response.ok) {
-        const newPost = await response.json();
-        setPosts([...posts, newPost]);
-        setNewPostTitle('');
-        setNewPostContent('');
-      } else {
-        console.error('Failed to create post');
-      }
-    } catch (error) {
-      console.error('Error creating post:', error);
-    }
-  };
 
   return (
     <div>
@@ -62,13 +41,17 @@ const Community = ({ circleId, user }) => {
         setNewPostTitle={setNewPostTitle}
         newPostContent={newPostContent}
         setNewPostContent={setNewPostContent}
-        onCreatePost={handleCreatePost}
+        author = {user.name}
+        community = {circleId}
       />
       <ul>
         {posts.map(post => (
           <li key={post.id}>
             <h3>{post.title}</h3>
             <p>{post.content}</p>
+            {post.images && post.images.map((image, index) => (
+              <img key={index} src={image} alt={`Post Image ${index}`} style={{ maxWidth: '100%' }} />
+            ))}
           </li>
         ))}
       </ul>
@@ -77,3 +60,5 @@ const Community = ({ circleId, user }) => {
 };
 
 export default Community;
+
+

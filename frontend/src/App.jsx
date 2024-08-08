@@ -12,30 +12,32 @@ const App = () => {
   const [currentCircleId, setCurrentCircleId] = useState(null); // 当前选择的圈子ID
   const [title, setTitle] = useState("");
 
+  const USER_KEY = 'jianghaixin_user';
+  const COMMUNITY_KEY = 'jianghaixin_community'
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = sessionStorage.getItem(USER_KEY);
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-    const storedCircleId = localStorage.getItem('currentCircleId');
+    const storedCircleId = sessionStorage.getItem(COMMUNITY_KEY);
     if (storedCircleId) {
       setCurrentCircleId(JSON.parse(storedCircleId));
     }
   }, []);
 
   const handleLogin = (user) => {
-    localStorage.setItem('user', JSON.stringify(user));
+    sessionStorage.setItem(USER_KEY, JSON.stringify(user));
     setUser(user); // 设置登录后的用户信息;
   };
   
   const handleLogout = () => {
-    localStorage.removeItem('user');
+    sessionStorage.removeItem(USER_KEY);
     setUser(null); // 登出操作，清空用户信息
     setCurrentCircleId(null); // 同时清空当前选择的圈子ID
   };
 
   const handleSelectCircle = (circleId) => {
-    localStorage.setItem('currentCircleId', JSON.stringify(circleId));
+    sessionStorage.setItem(COMMUNITY_KEY, JSON.stringify(circleId));
     setCurrentCircleId(circleId); // 选择某个圈子后，更新当前圈子ID
   };
 

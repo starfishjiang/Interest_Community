@@ -2,20 +2,21 @@ import { Comment } from './comment.model';
 
 export class Post {
 
-    id: number;
-    name: string;
+    title: string;
     content:string;
     author: string;
+    images: string[];
     comments: Comment[];
 
-    constructor(name: string,content: string, author: string) {
-        this.name = name;
+    constructor(title: string,content: string, author: string, images: string[]) {
+        this.title = title;
         this.content = content;
         this.author = author;
+        this.images = images;
         this.comments = [];
     }
 
-    public getName() {
-        return this.name;
+    public gettitle() {
+        return this.title;
     }
 }
