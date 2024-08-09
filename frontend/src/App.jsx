@@ -5,6 +5,7 @@ import Register from './components/Register';
 import CreateCircle from './components/CreateCircle';
 import CommunityList from './components/CommunityList';
 import Community from './components/Community';
+import backgroundImage from './components/background.png';
 import * as util_request from './request/util.request'
 
 const App = () => {
@@ -55,7 +56,18 @@ const App = () => {
   })
 
   return (
-    <div>
+    <div
+     style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover', // 确保背景图像覆盖整个容器
+        backgroundPosition: 'center', // 背景图像居中显示
+        backgroundAttachment: 'fixed', // 背景图像固定在视口中
+        height: '100vh', // 使 div 高度为视口高度
+        margin: 0, // 确保没有外边距
+        padding: 0, // 确保没有内边距
+        overflow: 'auto' // 确保内容能够滚动
+    }}
+    >
       <h1>{title}{user ? `, ${user.name}` : ''}</h1>
       {!user ? ( 
         <div>

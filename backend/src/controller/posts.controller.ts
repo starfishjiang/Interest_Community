@@ -64,4 +64,11 @@ export class PostController {
         // console.log(await this.postService.fetch(circleId));
         return this.postService.fetch(circleId);
     }
+
+    @Post('/comment')
+    public async comment(@Body() body) {
+        const { content, author, community, index } = body;
+        // console.log(await this.postService.fetch(circleId));
+        return this.postService.comment(content, author, community, index);
+    }
 }

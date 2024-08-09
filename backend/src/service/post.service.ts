@@ -1,5 +1,6 @@
 import { Provide } from "@midwayjs/core";
 import { Post } from "../model/post.model"
+import { Comment } from "../model/comment.model";
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -59,6 +60,41 @@ export class PostService {
                     resolve(null);
                 } else {
                 resolve(communuitylist[foundCommunityIndex].posts);
+                }
+            });
+        });
+    }
+
+    public comment(content, author, community, index): Promise<string | null> {
+        return new Promise((resolve, reject) => {
+            fs.readFile(USER_FILE_PATH, 'utf-8', (err, data) => {
+                if (err) {
+                    if (err.code === 'ENOENT') {
+                        console.log('post file not exist');
+                        return resolve(null);
+                    } else {
+                        
+                        console.error('Reading post file failed', err);
+                        return reject(err);
+                    }
+                }
+                
+                let communuitylist = JSON.parse(data);
+                const foundCommunityIndex = communuitylist.findIndex(u => u.name === community);
+                if (foundCommunityIndex === -1) {
+                    console.log('Community not defined');
+                    resolve(null);
+                } else {
+                    (communuitylist[foundCommunityIndex].posts[index].comments).push(new Comment(content, author));
+                    fs.writeFile(USER_FILE_PATH, JSON.stringify(communuitylist, null, 2), (writeErr) => {
+                        if (writeErr) {
+                            console.error('post creation failed', writeErr);
+                            reject(writeErr);
+                        } else {
+                            console.log('post creation succeed');
+                            resolve("ok");
+                        }
+                    });
                 }
             });
         });

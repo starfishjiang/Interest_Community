@@ -1,10 +1,10 @@
 // src/components/CreateComment.jsx
 import React, { useState } from 'react';
 
-const base = "http://127.0.0.1:7002/community/create"
+const base = "http://127.0.0.1:7002/posts/comment"
 
-const CreateComment = ({ onCreateComment }) => {
-  const [CommentName, setCommentName] = useState('');
+const CreateComment = ({ author, community, index }) => {
+  const [CommentContent, setCommentContent] = useState('');
 
   const handleCreateComment = async () => {
     try {
@@ -13,12 +13,12 @@ const CreateComment = ({ onCreateComment }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name: CommentName }),
+        body: JSON.stringify({ content: CommentContent , author, community, index}),
       });
       if (response.ok) {
         const data = await response.json();
         if (data.success) { 
-          console.log('Community creation succeed');
+          console.log('Comment creation succeed');
         //   onLogin(data.data); 
         } else {
           // 登录失败，显示错误信息
@@ -33,16 +33,17 @@ const CreateComment = ({ onCreateComment }) => {
     }
   };
 
+
   return (
-    <div>
-      <h2>创建兴趣圈</h2>
-      <input
-        type="text"
-        placeholder="Community Name"
-        value={CommentName}
-        onChange={(e) => setCommentName(e.target.value)}
-      />
-      <button onClick={handleCreateComment}>确认</button>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <h3 style={{ marginRight: '10px' }}>评论</h3>
+    <input
+      type="text"
+      placeholder="Content"
+      value={CommentContent}
+      onChange={(e) => setCommentContent(e.target.value)}
+    />
+    <button onClick={handleCreateComment}>确认</button>
     </div>
   );
 };

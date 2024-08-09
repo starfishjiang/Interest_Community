@@ -1,7 +1,7 @@
 // src/components/Circle.jsx
 import React, { useState, useEffect } from 'react';
 import CreatePost from './CreatePost';
-import CreateComment from './CreatePost';
+import CreateComment from './CreateComment';
 
 const Community = ({ circleId, user }) => {
   const [posts, setPosts] = useState([]);
@@ -55,11 +55,24 @@ const Community = ({ circleId, user }) => {
             <p dangerouslySetInnerHTML={{ __html: post.content.replace(/\n/g, '<br />') }} />
             {post.images && post.images.map((image, index) => (
               <img key={index} src={image} alt={`Post Image ${index}`} style={{ maxWidth: '100%' }} />
-            <CreateComment />
+                
+            )
+            )}
+            <CreateComment author={user.name} community={circleId} index={index}/>
+            <ul style={{ listStyleType: 'none', padding: 0 }}>
+            {(post.comments).map((comment, index) => (
+              <li key={index}style={{ marginBottom: '8px' }} >
+            <span><strong>{comment.author}: </strong>  </span> 
+            <span style={{ margin: 0, whiteSpace: 'pre-wrap' }} dangerouslySetInnerHTML={{ __html: comment.content.replace(/\n/g, '<br />') }} />
+            
+             </li>
             ))}
+            </ul>
           </li>
+          
         ))}
-      </ul>
+        </ul>
+      
     </div>
   );
 };
