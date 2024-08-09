@@ -12,7 +12,7 @@ export class Post {
         this.title = title;
         this.content = content;
         this.author = author;
-        this.images = images;
+        this.images = images || [];
         this.comments = [];
     }
 

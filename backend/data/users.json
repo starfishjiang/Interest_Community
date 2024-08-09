@@ -1,12 +1,17 @@
 [
   {
-    "username": "12",
-    "password": "12",
+    "username": "123",
+    "password": "123",
     "activation": 0
   },
   {
-    "username": "",
-    "password": "",
+    "username": "艾雅法拉",
+    "password": "55555",
+    "activation": 0
+  },
+  {
+    "username": "兴趣圈用户",
+    "password": "123456",
     "activation": 0
   }
 ]

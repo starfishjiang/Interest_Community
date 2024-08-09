@@ -1,19 +1,19 @@
-// src/components/CreateCircle.jsx
+// src/components/CreateComment.jsx
 import React, { useState } from 'react';
 
 const base = "http://127.0.0.1:7002/community/create"
 
-const CreateCircle = ({ onCreateCircle }) => {
-  const [circleName, setCircleName] = useState('');
+const CreateComment = ({ onCreateComment }) => {
+  const [CommentName, setCommentName] = useState('');
 
-  const handleCreateCircle = async () => {
+  const handleCreateComment = async () => {
     try {
       const response = await fetch(base, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name: circleName }),
+        body: JSON.stringify({ name: CommentName }),
       });
       if (response.ok) {
         const data = await response.json();
@@ -29,7 +29,7 @@ const CreateCircle = ({ onCreateCircle }) => {
         console.error('HTTP request failed');
       }
     } catch (error) {
-      console.error('Error creating circle:', error);
+      console.error('Error creating Comment:', error);
     }
   };
 
@@ -39,12 +39,12 @@ const CreateCircle = ({ onCreateCircle }) => {
       <input
         type="text"
         placeholder="Community Name"
-        value={circleName}
-        onChange={(e) => setCircleName(e.target.value)}
+        value={CommentName}
+        onChange={(e) => setCommentName(e.target.value)}
       />
-      <button onClick={handleCreateCircle}>确认</button>
+      <button onClick={handleCreateComment}>确认</button>
     </div>
   );
 };
 
-export default CreateCircle;
+export default CreateComment;

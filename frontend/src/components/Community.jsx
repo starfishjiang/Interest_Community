@@ -1,6 +1,7 @@
 // src/components/Circle.jsx
 import React, { useState, useEffect } from 'react';
 import CreatePost from './CreatePost';
+import CreateComment from './CreatePost';
 
 const Community = ({ circleId, user }) => {
   const [posts, setPosts] = useState([]);
@@ -12,9 +13,11 @@ const Community = ({ circleId, user }) => {
     const fetchPosts = async () => {
       try {
         const response = await fetch(base, {
+            method: 'POST',
           headers: {
-            Authorization: `Bearer ${user.name}`,
+            'Content-Type': 'application/json',
           },
+          body: JSON.stringify({ circleId }),
         });
 
         if (response.ok) {
@@ -35,7 +38,7 @@ const Community = ({ circleId, user }) => {
 
   return (
     <div>
-      <h2>Posts in Circle {circleId}</h2>
+      <h2>{circleId}</h2>
       <CreatePost
         newPostTitle={newPostTitle}
         setNewPostTitle={setNewPostTitle}
@@ -45,12 +48,14 @@ const Community = ({ circleId, user }) => {
         community = {circleId}
       />
       <ul>
-        {posts.map(post => (
-          <li key={post.id}>
+        {posts.map((post, index) => (
+          <li key={index}>
             <h3>{post.title}</h3>
-            <p>{post.content}</p>
+            <p><strong>作者:</strong> {post.author}</p> 
+            <p dangerouslySetInnerHTML={{ __html: post.content.replace(/\n/g, '<br />') }} />
             {post.images && post.images.map((image, index) => (
               <img key={index} src={image} alt={`Post Image ${index}`} style={{ maxWidth: '100%' }} />
+            <CreateComment />
             ))}
           </li>
         ))}

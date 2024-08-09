@@ -8,47 +8,53 @@ const CreatePost = ({ newPostTitle, setNewPostTitle, newPostContent, setNewPostC
     setImages(files);
     console.log(files);
   };
-//   const handleCreate = () => {
-//     // 构建带有多个图片的数据对象
-//     const formData = new FormData();
-//     formData.push('title', newPostTitle);
-//     formData.push('content', newPostContent);
-//     images.forEach((image, index) => {
-//       formData.push(`image${index}`, image);
-//     });
-    
-//     // 调用父组件的处理函数来创建帖子
-//     onCreatePost(formData);
-//   };
 
-  const handleCreatePost = async (user) => {
-    const formData = [];
-    formData.push('title', newPostTitle);
-    formData.push('content', newPostContent);
-    formData.push('author', author);
-    formData.push('community', community);
-    const imagearray = [];
-    images.forEach((image, index) => {
-      imagearray.push(`image${index}`, image);
-    });
-    formData.push('images', imagearray);
+  const handleCreatePost = async () => {
+    const formData = new FormData();
+    formData.append('title', newPostTitle);
+    formData.append('content', newPostContent);
+    formData.append('author', author);
+    formData.append('community', community);
+    const fileInput = document.querySelector('input[type="file"]');
+    const files = fileInput.files;
+    for (let i = 0; i < files.length; i++) {
+        formData.append('imagearray', files[i]);
+    }
     try {
+        console.log(newPostContent, newPostContent, author, community);
       const response = await fetch(base, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${author}`,
+          'Content-Type': 'application/json',
         },
-        body: formData,
+        body: JSON.stringify({newPostTitle, newPostContent, author, community}),
       });
 
+    //     try {
+    //   const response = await fetch(base, {
+    //     method: 'POST',
+    //     headers: {
+    //       Authorization: `Bearer ${author}`,
+    //     },
+    //     body: FormData,
+    //   });
+
       if (response.ok) {
-        console.log('Post creation succeed');
+        const data = await response.json();
+        if (data.success) { 
+          console.log('Post creation succeed');
+        //   onLogin(data.data); 
         // const newPost = await response.json();
-        // setPosts([...posts, newPost]);
-        // setNewPostTitle('');
-        // setNewPostContent('');
+    //     // setPosts([...posts, newPost]);
+    //     // setNewPostTitle('');
+    //     // setNewPostContent('');
+        } else {
+          // 登录失败，显示错误信息
+          console.error(`Creation failed: ${data.message}`);
+        }
       } else {
-        console.error('Failed to create post');
+        // HTTP 请求失败，显示网络错误信息等
+        console.error('HTTP request failed');
       }
     } catch (error) {
       console.error('Error creating post:', error);
@@ -57,10 +63,11 @@ const CreatePost = ({ newPostTitle, setNewPostTitle, newPostContent, setNewPostC
 
   return (
     <div>
-      <textarea type="text" value={newPostTitle} onChange={(e) => setNewPostTitle(e.target.value)} placeholder="Post Title" />
-      <textarea value={newPostContent} onChange={(e) => setNewPostContent(e.target.value)} placeholder="Post Content" />
-      <input type="file" accept="image/*" multiple onChange={handleImageChange} />
-      <button onClick={handleCreatePost}>Create Post</button>
+      <textarea type="text" value={newPostTitle} onChange={(e) => setNewPostTitle(e.target.value)} placeholder="Title" />
+      <textarea value={newPostContent} onChange={(e) => setNewPostContent(e.target.value)} placeholder="Content" />
+      {/* <input type="file" accept="image/*" multiple onChange={handleImageChange} /> */}
+      <input type="file" accept="image/*" onChange={handleImageChange} />
+      <button onClick={handleCreatePost}>发布</button>
     </div>
   );
 };

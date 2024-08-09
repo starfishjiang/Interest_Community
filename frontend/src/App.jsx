@@ -9,7 +9,7 @@ import * as util_request from './request/util.request'
 
 const App = () => {
   const [user, setUser] = useState(null); // 用户状态，如果登录成功会有用户信息
-  const [currentCircleId, setCurrentCircleId] = useState(null); // 当前选择的圈子ID
+  const [CurrentCommunity, setCurrentCommunity] = useState(null); // 当前选择的圈子ID
   const [title, setTitle] = useState("");
 
   const USER_KEY = 'jianghaixin_user';
@@ -21,7 +21,7 @@ const App = () => {
     }
     const storedCircleId = sessionStorage.getItem(COMMUNITY_KEY);
     if (storedCircleId) {
-      setCurrentCircleId(JSON.parse(storedCircleId));
+      setCurrentCommunity(JSON.parse(storedCircleId));
     }
   }, []);
 
@@ -33,40 +33,22 @@ const App = () => {
   const handleLogout = () => {
     sessionStorage.removeItem(USER_KEY);
     setUser(null); // 登出操作，清空用户信息
-    setCurrentCircleId(null); // 同时清空当前选择的圈子ID
+    setCurrentCommunity(null); // 同时清空当前选择的圈子ID
   };
 
   const handleSelectCircle = (circleId) => {
     sessionStorage.setItem(COMMUNITY_KEY, JSON.stringify(circleId));
-    setCurrentCircleId(circleId); // 选择某个圈子后，更新当前圈子ID
+    setCurrentCommunity(circleId); // 选择某个圈子后，更新当前圈子ID
   };
 
-  const handleCreateCircle = async (circleName) => {
-    try {
-      const response = await fetch('/api/circles', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`, // 假设登录后返回了用户token
-        },
-        body: JSON.stringify({ name: circleName }),
-      });
-  
-      if (response.ok) {
-        const newCircle = await response.json();
-        // 在这里可能需要更新圈子列表或者执行其他相关操作
-        console.log('Circle created:', newCircle);
-      } else {
-        console.error('Failed to create circle');
-      }
-    } catch (error) {
-      console.error('Error creating circle:', error);
-    }
+  const handleReturnToCommunities = async () => {
+    setCurrentCommunity(null);
+    sessionStorage.removeItem(COMMUNITY_KEY);
   };
   
 
   // 在App组件中传递给CreateCircle组件
-  <CreateCircle onCreateCircle={handleCreateCircle} />
+//   <CreateCircle onCreateCircle={handleCreateCircle} />
   
   util_request.getTitle().then(result => {
     setTitle(result);
@@ -80,13 +62,19 @@ const App = () => {
           <Login onLogin={handleLogin} />
           <Register />
         </div>
-      ) : (
+      ) : (!CurrentCommunity ? ( 
         <div>
           <button onClick={handleLogout}>注销</button>
-          <CreateCircle onCreateCircle={handleCreateCircle} />
+          <CreateCircle  />
           <CommunityList user={user} onSelectCircle={handleSelectCircle} />
-          {currentCircleId && <Community circleId={currentCircleId} user={user} />}
         </div>
+      ) : (
+        <div>
+          <button onClick={handleReturnToCommunities}>返回</button>
+          {CurrentCommunity && <Community circleId={CurrentCommunity} user={user} />}
+        </div>
+      )
+        
       )}
     </div>
   );

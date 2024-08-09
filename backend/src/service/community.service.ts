@@ -21,7 +21,7 @@ export class CommunityService {
                 const foundCommunity = community.find((u: any) => u.name === name);
                 if(foundCommunity != null) resolve(null);
                 else{
-                    community.push({name});
+                    community.push(new Community(name));
                     fs.writeFile(USER_FILE_PATH, JSON.stringify(community, null, 2), (writeErr) => {
                         if (writeErr) {
                             console.error('Community creation failed', writeErr);
