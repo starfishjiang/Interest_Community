@@ -62,6 +62,26 @@ export class UserService {
             });
         });
     }
+
+    public async activation(community: string): Promise<any | null> {
+        return new Promise((resolve, reject) => {
+            fs.readFile(USER_FILE_PATH, 'utf-8', (err, data) => {
+                if (err) {
+                    if (err.code === 'ENOENT') {
+                        console.log('用户文件不存在，可能是第一次创建');
+                        return resolve(null);
+                    } else {
+                        console.error('读取用户文件失败:', err);
+                        return reject(err);
+                    }
+                }
+                let users = JSON.parse(data);
+                // console.log(users)
+                resolve(users);
+                
+            });
+        });
+    }
 }
 
 

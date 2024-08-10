@@ -60,15 +60,15 @@ export class PostController {
 
     @Post('/fetch')
     public async fetch(@Body() body) {
-        const { circleId } = body;
-        // console.log(await this.postService.fetch(circleId));
-        return this.postService.fetch(circleId);
+        const { community } = body;
+        // console.log(await this.postService.fetch(community));
+        return this.postService.fetch(community);
     }
 
     @Post('/comment')
     public async comment(@Body() body) {
         const { content, author, community, index } = body;
-        // console.log(await this.postService.fetch(circleId));
-        return this.postService.comment(content, author, community, index);
+        // console.log(await this.postService.fetch(community));
+        return { success: true, message: 'OK', data: this.postService.comment(content, author, community, index)};
     }
 }

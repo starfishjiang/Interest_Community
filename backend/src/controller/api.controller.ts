@@ -46,5 +46,21 @@ export class APIController {
     }
   }
   
+  @Post('/activation')
+  async activation(@Body() body) {
+    const { community } = body;
+    try {
+      const Users = await this.userService.activation(community);
+      if (Users) {
+        return { success: true, message: 'Get activaiton successfully', data: Users };
+      } else {
+        console.error('Get activation failed.');
+        return { success: false, message: 'Get activation failed.' };
+      }
+    } catch (error) {
+        console.error('Get activation failed.');
+      return { success: false, message: 'Get activation failed.' };
+    }
+  }
 }
 

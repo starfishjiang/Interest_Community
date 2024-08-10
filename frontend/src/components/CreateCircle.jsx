@@ -1,4 +1,4 @@
-// src/components/CreateCircle.jsx
+
 import React, { useState } from 'react';
 
 const base = "http://127.0.0.1:7002/community/create"
@@ -21,11 +21,9 @@ const CreateCircle = ({ onCreateCircle }) => {
           console.log('Community creation succeed');
         //   onLogin(data.data); 
         } else {
-          // 登录失败，显示错误信息
           console.error(`Creation failed: ${data.message}`);
         }
       } else {
-        // HTTP 请求失败，显示网络错误信息等
         console.error('HTTP request failed');
       }
     } catch (error) {

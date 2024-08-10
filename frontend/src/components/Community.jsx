@@ -1,9 +1,9 @@
-// src/components/Circle.jsx
+
 import React, { useState, useEffect } from 'react';
 import CreatePost from './CreatePost';
 import CreateComment from './CreateComment';
 
-const Community = ({ circleId, user }) => {
+const Community = ({ community, user }) => {
   const [posts, setPosts] = useState([]);
   const [newPostTitle, setNewPostTitle] = useState('');
   const [newPostContent, setNewPostContent] = useState('');
@@ -17,7 +17,7 @@ const Community = ({ circleId, user }) => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ circleId }),
+          body: JSON.stringify({ community }),
         });
 
         if (response.ok) {
@@ -32,20 +32,20 @@ const Community = ({ circleId, user }) => {
     };
 
     fetchPosts();
-  }, [circleId, user]);
+  }, [community, user]);
 
 
 
   return (
     <div>
-      <h2>{circleId}</h2>
+      <h2>{community}</h2>
       <CreatePost
         newPostTitle={newPostTitle}
         setNewPostTitle={setNewPostTitle}
         newPostContent={newPostContent}
         setNewPostContent={setNewPostContent}
         author = {user.name}
-        community = {circleId}
+        community = {community}
       />
       <ul>
         {posts.map((post, index) => (
@@ -58,7 +58,7 @@ const Community = ({ circleId, user }) => {
                 
             )
             )}
-            <CreateComment author={user.name} community={circleId} index={index}/>
+            <CreateComment author={user.name} community={community} index={index}/>
             <ul style={{ listStyleType: 'none', padding: 0 }}>
             {(post.comments).map((comment, index) => (
               <li key={index}style={{ marginBottom: '8px' }} >

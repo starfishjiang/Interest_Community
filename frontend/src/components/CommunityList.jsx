@@ -1,4 +1,4 @@
-// src/components/communityList.jsx
+
 import React, { useState, useEffect } from 'react';
 
 const base = "http://127.0.0.1:7002/community/fetch"
@@ -10,9 +10,9 @@ const CommunityList = ({ user, onSelectCircle }) => {
     const fetchCommunities = async () => {
       try {
         const response = await fetch(base, {
-          headers: {
-            Authorization: `Bearer ${user.name}`, // 假设登录后返回了用户token
-          },
+        //   headers: {
+        //     Authorization: `Bearer ${user.name}`, 
+        //   },
         });
 
         if (response.ok) {
@@ -29,7 +29,6 @@ const CommunityList = ({ user, onSelectCircle }) => {
     fetchCommunities();
   }, [user]); 
   const handleEnterCircle = (name) => {
-    // 这里可以执行进入圈子的逻辑，例如导航到相应的圈子页面等
     onSelectCircle(name);
   };
 

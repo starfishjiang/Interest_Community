@@ -1,15 +1,17 @@
+import {Activation} from './activation.model'
+
 export class User {
 
     name: string;
 
     password: string;
 
-    activation: number;
+    activation: Activation[];
 
     constructor(name: string, password: string) {
         this.name = name;
         this.password = password;
-        this.activation = 0;
+        this.activation = [];
     }
 
     public getName() {

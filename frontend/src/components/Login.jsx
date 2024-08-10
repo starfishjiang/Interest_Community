@@ -1,4 +1,4 @@
-// src/components/Login.jsx
+
 import React, { useState } from 'react';
 
 const base = "http://127.0.0.1:7002/api/login"
@@ -23,11 +23,9 @@ const Login = ({ onLogin }) => {
           console.log('Login succeed');
           onLogin(data.data); 
         } else {
-          // 登录失败，显示错误信息
           console.error(`Login failed: ${data.message}`);
         }
       } else {
-        // HTTP 请求失败，显示网络错误信息等
         console.error('HTTP request failed');
       }
     } catch (error) {

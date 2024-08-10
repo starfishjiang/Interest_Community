@@ -20,6 +20,12 @@ const Register = ({ onRegister }) => {
       if (response.ok) {
         // const newUser = await response.json();
         // onRegister(newUser); // Assuming `onRegister` is a callback to handle successful registration
+        if (data.success) { 
+            console.log('Register succeed');
+            onLogin(data.data); 
+          } else {
+            console.error(`Register failed: ${data.message}`);
+          }
       } else {
         console.error('Register failed');
       }

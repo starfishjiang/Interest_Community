@@ -21,7 +21,7 @@ const CreatePost = ({ newPostTitle, setNewPostTitle, newPostContent, setNewPostC
         formData.append('imagearray', files[i]);
     }
     try {
-        console.log(newPostContent, newPostContent, author, community);
+        // console.log(newPostContent, newPostContent, author, community);
       const response = await fetch(base, {
         method: 'POST',
         headers: {
@@ -49,11 +49,9 @@ const CreatePost = ({ newPostTitle, setNewPostTitle, newPostContent, setNewPostC
     //     // setNewPostTitle('');
     //     // setNewPostContent('');
         } else {
-          // 登录失败，显示错误信息
           console.error(`Creation failed: ${data.message}`);
         }
       } else {
-        // HTTP 请求失败，显示网络错误信息等
         console.error('HTTP request failed');
       }
     } catch (error) {

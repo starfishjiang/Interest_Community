@@ -1,16 +1,18 @@
 import { Provide } from "@midwayjs/core";
 import { Post } from "../model/post.model"
 import { Comment } from "../model/comment.model";
+import { Activation } from "../model/activation.model";
 import * as fs from 'fs'
 import * as path from 'path'
 
-const USER_FILE_PATH = path.join(__dirname, '../../data/communities.json');
+const COMMUNITY_FILE_PATH = path.join(__dirname, '../../data/communities.json');
+const USER_FILE_PATH = path.join(__dirname, '../../data/users.json');
 @Provide()
 export class PostService {
 
     public async create(title, content, author, community): Promise<string |void> {
         return new Promise((resolve, reject) => {
-            fs.readFile(USER_FILE_PATH, 'utf-8', (err, data) => {
+            fs.readFile(COMMUNITY_FILE_PATH, 'utf-8', (err, data) => {
                 if (err && err.code !== 'ENOENT') {
                     console.error('Reading post file failed', err);
                     return reject(err);
@@ -24,8 +26,37 @@ export class PostService {
                     console.log('Community already exists, not adding duplicate');
                     resolve(null);
                 } else {
+                    fs.readFile(USER_FILE_PATH, 'utf-8', (err, data) => {
+                        if (err && err.code !== 'ENOENT') {
+                            console.error('Reading user file failed', err);
+                            return reject(err);
+                        }
+                        let users = [];
+                        if (!err) {
+                            users = JSON.parse(data);
+                        }
+                        const foundUser = users.findIndex(u => u.username === author);
+                        if (foundUser === -1) {
+                            console.log('User not exist');
+                        } else {
+                            const foundActivation = (users[foundCommunityIndex].activation).findIndex(u => u.community === community);
+                            if (foundActivation === -1) {
+                                (users[foundCommunityIndex].activation).push(new Activation(community, 5));
+                            }
+                            else{
+                                (users[foundCommunityIndex].activation)[foundActivation].number += 5;
+                            }
+                            fs.writeFile(USER_FILE_PATH, JSON.stringify(users, null, 2), (writeErr) => {
+                                if (writeErr) {
+                                    console.error('post creation failed', writeErr);
+                                } else {
+                                    console.log('post creation succeed');
+                                }
+                            });
+                        }
+                    });
                     (communities[foundCommunityIndex].posts).push(new Post(title, content, author, null));
-                    fs.writeFile(USER_FILE_PATH, JSON.stringify(communities, null, 2), (writeErr) => {
+                    fs.writeFile(COMMUNITY_FILE_PATH, JSON.stringify(communities, null, 2), (writeErr) => {
                         if (writeErr) {
                             console.error('post creation failed', writeErr);
                             reject(writeErr);
@@ -41,7 +72,7 @@ export class PostService {
 
     public fetch(circleId): Promise<Post[] | null> {
         return new Promise((resolve, reject) => {
-            fs.readFile(USER_FILE_PATH, 'utf-8', (err, data) => {
+            fs.readFile(COMMUNITY_FILE_PATH, 'utf-8', (err, data) => {
                 if (err) {
                     if (err.code === 'ENOENT') {
                         console.log('post file not exist');
@@ -67,7 +98,7 @@ export class PostService {
 
     public comment(content, author, community, index): Promise<string | null> {
         return new Promise((resolve, reject) => {
-            fs.readFile(USER_FILE_PATH, 'utf-8', (err, data) => {
+            fs.readFile(COMMUNITY_FILE_PATH, 'utf-8', (err, data) => {
                 if (err) {
                     if (err.code === 'ENOENT') {
                         console.log('post file not exist');
@@ -85,8 +116,37 @@ export class PostService {
                     console.log('Community not defined');
                     resolve(null);
                 } else {
+                    fs.readFile(USER_FILE_PATH, 'utf-8', (err, data) => {
+                        if (err && err.code !== 'ENOENT') {
+                            console.error('Reading user file failed', err);
+                            return reject(err);
+                        }
+                        let users = [];
+                        if (!err) {
+                            users = JSON.parse(data);
+                        }
+                        const foundUser = users.findIndex(u => u.username === author);
+                        if (foundUser === -1) {
+                            console.log('User not exist');
+                        } else {
+                            const foundActivation = (users[foundCommunityIndex].activation).findIndex(u => u.community === community);
+                            if (foundActivation === -1) {
+                                (users[foundCommunityIndex].activation).push(new Activation(community, 2));
+                            }
+                            else{
+                                (users[foundCommunityIndex].activation)[foundActivation].number += 2;
+                            }
+                            fs.writeFile(USER_FILE_PATH, JSON.stringify(users, null, 2), (writeErr) => {
+                                if (writeErr) {
+                                    console.error('post creation failed', writeErr);
+                                } else {
+                                    console.log('post creation succeed');
+                                }
+                            });
+                        }
+                    });
                     (communuitylist[foundCommunityIndex].posts[index].comments).push(new Comment(content, author));
-                    fs.writeFile(USER_FILE_PATH, JSON.stringify(communuitylist, null, 2), (writeErr) => {
+                    fs.writeFile(COMMUNITY_FILE_PATH, JSON.stringify(communuitylist, null, 2), (writeErr) => {
                         if (writeErr) {
                             console.error('post creation failed', writeErr);
                             reject(writeErr);
