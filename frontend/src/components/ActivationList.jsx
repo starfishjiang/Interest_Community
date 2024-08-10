@@ -38,28 +38,35 @@ const ActivationList = ({ community }) => {
 
     fetchActivation();
   }, []); 
-//   const handleEnterCircle = (name) => {
-//     onSelectCircle(name);
-//   };
 
 
-  const sortedUsers = users
-  .filter(user => {
-    const activationIndex = user.activation.findIndex(a => a.community === community);
-    return activationIndex !== -1;
-  })
-  .map(user => {
-    const activationIndex = user.activation.findIndex(a => a.community === community);
-    return {
-      name: user.username,
-      activationNumber: user.activation[activationIndex].number
-    };
-  })
-  .sort((a, b) => b.activationNumber - a.activationNumber);
-  
+
+
+    const sortedUsers = [];
+
+  users.forEach(user => {
+    if (Array.isArray(user.activation)) {
+      let activationNumber = null;
+      user.activation.forEach(a => {
+        if (a.community === community) {
+          activationNumber = a.number;
+        }
+      });
+
+    if (activationNumber !== null) {
+        sortedUsers.push({
+          name: user.username,
+          activationNumber: activationNumber
+        });
+        }
+    }
+  });
+
+  sortedUsers.sort((a, b) => b.activationNumber - a.activationNumber);
+
     return (
       <div>
-        <h2>Users in {community} (Sorted by Activity)</h2>
+        <h2>{community}圈活跃度</h2>
         <ul>
           {sortedUsers.map((user, index) => (
             <li key={index}>
@@ -69,21 +76,6 @@ const ActivationList = ({ community }) => {
         </ul>
       </div>
     );
-
-
-//   return (
-//     <div>
-//       <h2>{community}圈活跃度</h2>
-//       <ul>
-//         {users.map((community, index) => (
-//           <li key={index}>
-//             {community.name+'  '}
-//             <button onClick={() => handleEnterCircle(community.name)}>进入</button>
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
 };
 
 export default ActivationList;

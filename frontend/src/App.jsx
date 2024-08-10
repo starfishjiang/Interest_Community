@@ -99,7 +99,7 @@ const App = () => {
         !Activation ? ( 
             <div>
             <button onClick={handleReturn} style={{ marginRight: '8px' }}>返回</button>
-            <button onClick={handleActivation}>查看活跃度</button>
+            <button onClick={handleActivation}>活跃度排行</button>
             <Community community={CurrentCommunity} user={user} />
           </div>
           ) : (
