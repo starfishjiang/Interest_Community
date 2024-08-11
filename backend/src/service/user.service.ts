@@ -63,7 +63,7 @@ export class UserService {
         });
     }
 
-    public async activation(community: string): Promise<any | null> {
+    public async activation(): Promise<any | null> {
         return new Promise((resolve, reject) => {
             fs.readFile(USER_FILE_PATH, 'utf-8', (err, data) => {
                 if (err) {

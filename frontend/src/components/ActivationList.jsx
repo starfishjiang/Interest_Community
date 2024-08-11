@@ -14,7 +14,7 @@ const ActivationList = ({ community }) => {
             // headers: {
             //   'Content-Type': 'application/json',
             // },
-            body: JSON.stringify({ community }),
+            // body: JSON.stringify({ community }),
         });
         if (response.ok) {
             // console.log(response)

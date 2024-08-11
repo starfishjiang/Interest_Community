@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import CreatePost from './CreatePost';
 import CreateComment from './CreateComment';
 
-const Community = ({ community, user }) => {
+const Community = ({ community, user, onCreate }) => {
   const [posts, setPosts] = useState([]);
   const [newPostTitle, setNewPostTitle] = useState('');
   const [newPostContent, setNewPostContent] = useState('');
@@ -34,7 +34,11 @@ const Community = ({ community, user }) => {
     fetchPosts();
   }, [community, user]);
 
-
+  const handleCreate = () => {
+    if (onCreate) {
+        onCreate(); 
+      }
+  };
 
   return (
     <div>
@@ -46,6 +50,7 @@ const Community = ({ community, user }) => {
         setNewPostContent={setNewPostContent}
         author = {user.name}
         community = {community}
+        onCreatePost={handleCreate}
       />
       <ul>
         {posts.map((post, index) => (
@@ -54,11 +59,13 @@ const Community = ({ community, user }) => {
             <p><strong>作者:</strong> {post.author}</p> 
             <p dangerouslySetInnerHTML={{ __html: post.content.replace(/\n/g, '<br />') }} />
             {post.images && post.images.map((image, index) => (
-              <img key={index} src={image} alt={`Post Image ${index}`} style={{ maxWidth: '100%' }} />
-                
+                <div key={index}>
+              <img key={index} src={image} alt={`Post Image ${index}`} style={{ maxWidth: '50%' }} />
+              <br />
+              </div>
             )
             )}
-            <CreateComment author={user.name} community={community} index={index}/>
+            <CreateComment author={user.name} community={community} index={index} onCreateComment={handleCreate}/>
             <ul style={{ listStyleType: 'none', padding: 0 }}>
             {(post.comments).map((comment, index) => (
               <li key={index}style={{ marginBottom: '8px' }} >

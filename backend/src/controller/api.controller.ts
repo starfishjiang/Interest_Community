@@ -47,10 +47,10 @@ export class APIController {
   }
   
   @Post('/activation')
-  async activation(@Body() body) {
-    const { community } = body;
+  async activation() {
+    // const { community } = body;
     try {
-      const Users = await this.userService.activation(community);
+      const Users = await this.userService.activation();
       if (Users) {
         return { success: true, message: 'Get activaiton successfully', data: Users };
       } else {

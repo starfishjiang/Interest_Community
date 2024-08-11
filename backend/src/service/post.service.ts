@@ -39,12 +39,12 @@ export class PostService {
                         if (foundUser === -1) {
                             console.log('User not exist');
                         } else {
-                            const foundActivation = (users[foundCommunityIndex].activation).findIndex(u => u.community === community);
+                            const foundActivation = (users[foundUser].activation).findIndex(u => u.community === community);
                             if (foundActivation === -1) {
-                                (users[foundCommunityIndex].activation).push(new Activation(community, 5));
+                                (users[foundUser].activation).push(new Activation(community, 5));
                             }
                             else{
-                                (users[foundCommunityIndex].activation)[foundActivation].number += 5;
+                                (users[foundUser].activation)[foundActivation].number += 5;
                             }
                             fs.writeFile(USER_FILE_PATH, JSON.stringify(users, null, 2), (writeErr) => {
                                 if (writeErr) {
@@ -55,7 +55,7 @@ export class PostService {
                             });
                         }
                     });
-                    (communities[foundCommunityIndex].posts).push(new Post(title, content, author, null));
+                    (communities[foundCommunityIndex].posts).push(new Post(title, content, author, imageUrls));
                     fs.writeFile(COMMUNITY_FILE_PATH, JSON.stringify(communities, null, 2), (writeErr) => {
                         if (writeErr) {
                             console.error('post creation failed', writeErr);
@@ -129,12 +129,12 @@ export class PostService {
                         if (foundUser === -1) {
                             console.log('User not exist');
                         } else {
-                            const foundActivation = (users[foundCommunityIndex].activation).findIndex(u => u.community === community);
+                            const foundActivation = (users[foundUser].activation).findIndex(u => u.community === community);
                             if (foundActivation === -1) {
-                                (users[foundCommunityIndex].activation).push(new Activation(community, 2));
+                                (users[foundUser].activation).push(new Activation(community, 2));
                             }
                             else{
-                                (users[foundCommunityIndex].activation)[foundActivation].number += 2;
+                                (users[foundUser].activation)[foundActivation].number += 2;
                             }
                             fs.writeFile(USER_FILE_PATH, JSON.stringify(users, null, 2), (writeErr) => {
                                 if (writeErr) {

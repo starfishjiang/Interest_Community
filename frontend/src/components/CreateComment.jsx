@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 const base = "http://127.0.0.1:7002/posts/comment"
 
-const CreateComment = ({ author, community, index }) => {
+const CreateComment = ({ author, community, index, onCreateComment }) => {
   const [CommentContent, setCommentContent] = useState('');
 
   const handleCreateComment = async () => {
@@ -19,7 +19,9 @@ const CreateComment = ({ author, community, index }) => {
         const data = await response.json();
         if (data.success) { 
           console.log('Comment creation succeed');
-        //   onLogin(data.data); 
+          if (onCreateComment) {
+            onCreateComment(); 
+          }
         } else {
           console.error(`Creation failed: ${data.message}`);
         }

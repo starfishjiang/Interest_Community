@@ -19,7 +19,9 @@ const CreateCircle = ({ onCreateCircle }) => {
         const data = await response.json();
         if (data.success) { 
           console.log('Community creation succeed');
-        //   onLogin(data.data); 
+          if (onCreateCircle) {
+            onCreateCircle(); 
+          }
         } else {
           console.error(`Creation failed: ${data.message}`);
         }

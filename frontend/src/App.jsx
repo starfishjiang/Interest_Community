@@ -6,6 +6,7 @@ import CreateCircle from './components/CreateCircle';
 import CommunityList from './components/CommunityList';
 import Community from './components/Community';
 import ActivationList from './components/ActivationList';
+import MyActivation from './components/MyActivation';
 import backgroundImage from './components/background.png';
 import * as util_request from './request/util.request'
 
@@ -13,11 +14,13 @@ const App = () => {
   const [user, setUser] = useState(null); 
   const [CurrentCommunity, setCurrentCommunity] = useState(null);
   const [Activation, setActivation] = useState(null); 
+  const [myActivation, setmyActivation] = useState(null); 
   const [title, setTitle] = useState("");
 
   const USER_KEY = 'jianghaixin_user';
   const COMMUNITY_KEY = 'jianghaixin_community'
   const ACTIVATION_KEY = 'jianghaixin_activation'
+  const MYACTIVATION_KEY = 'jianghaixin_myactivation'
   useEffect(() => {
     const storedUser = sessionStorage.getItem(USER_KEY);
     if (storedUser) {
@@ -31,6 +34,10 @@ const App = () => {
     if (storedActivation) {
       setActivation(JSON.parse(storedActivation));
     }
+    const storedmyActivation = sessionStorage.getItem(MYACTIVATION_KEY);
+    if (storedmyActivation) {
+        setActivation(JSON.parse(storedmyActivation));
+      }
   }, []);
 
   const handleLogin = (user) => {
@@ -44,14 +51,24 @@ const App = () => {
     setCurrentCommunity(null); 
   };
 
+  const handleCreate = () => {
+    window.location.reload();
+  };
+
   const handleSelectCircle = (community) => {
     sessionStorage.setItem(COMMUNITY_KEY, JSON.stringify(community));
     setCurrentCommunity(community); 
   };
 
   const handleActivation = () => {
-    sessionStorage.setItem(ACTIVATION_KEY, JSON.stringify(CurrentCommunity));
-    setActivation(CurrentCommunity);
+    sessionStorage.setItem(ACTIVATION_KEY, JSON.stringify(user));
+    setActivation(user);
+  };
+
+  const handlemyActivation = () => {
+    sessionStorage.setItem(MYACTIVATION_KEY, JSON.stringify(user));
+    // console.log(user);
+    setmyActivation(user);
   };
 
   const handleReturn = async () => {
@@ -63,6 +80,11 @@ const App = () => {
         setCurrentCommunity(null);
         sessionStorage.removeItem(COMMUNITY_KEY)
     }
+  };
+
+  const handleReturnmyActivation = async () => {
+    setmyActivation(null);
+    sessionStorage.removeItem(MYACTIVATION_KEY);
   };
 
   
@@ -90,17 +112,26 @@ const App = () => {
           <Register />
         </div>
       ) : (!CurrentCommunity ? ( 
-        <div>
-          <button onClick={handleLogout}>注销</button>
-          <CreateCircle  />
+          !myActivation ? ( 
+                    <div>
+          <button onClick={handleLogout} style={{ marginRight: '8px' }}>注销</button>
+          <button onClick={handlemyActivation}>我的活跃度</button>
+          <CreateCircle  onCreateCircle={handleCreate}/>
           <CommunityList user={user} onSelectCircle={handleSelectCircle} />
-        </div>
+          </div>
+          ) : (
+            <div>
+              <button onClick={handleReturnmyActivation}>返回</button>
+              <MyActivation username={user.name} />
+            </div>
+          )
+
       ) : (
         !Activation ? ( 
             <div>
             <button onClick={handleReturn} style={{ marginRight: '8px' }}>返回</button>
             <button onClick={handleActivation}>活跃度排行</button>
-            <Community community={CurrentCommunity} user={user} />
+            <Community community={CurrentCommunity} user={user} onCreate = {handleCreate}/>
           </div>
           ) : (
             <div>
