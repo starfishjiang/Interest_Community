@@ -3,38 +3,42 @@
     "username": "123",
     "password": "123",
     "activation": [
-        {
-            "community": "日常生活",
-            "number": 9
-        }
+      {
+        "community": "日常生活",
+        "number": 9
+      },
+      {
+        "community": "美食",
+        "number": 40
+      }
     ]
   },
   {
     "username": "艾雅法拉",
     "password": "55555",
     "activation": [
-        {
-            "community": "旅行攻略",
-            "number": 5
-        },
-        {
-            "community": "美食",
-            "number": 2
-        }
+      {
+        "community": "旅行攻略",
+        "number": 5
+      },
+      {
+        "community": "美食",
+        "number": 2
+      }
     ]
   },
   {
     "username": "兴趣圈用户",
     "password": "123456",
     "activation": [
-        {
-            "community": "美食",
-            "number": 5
-        },
-        {
-            "community": "旅行攻略",
-            "number": 2
-        }
+      {
+        "community": "美食",
+        "number": 5
+      },
+      {
+        "community": "旅行攻略",
+        "number": 2
+      }
     ]
   }
 ]

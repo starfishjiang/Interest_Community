@@ -10,7 +10,7 @@ const USER_FILE_PATH = path.join(__dirname, '../../data/users.json');
 @Provide()
 export class PostService {
 
-    public async create(title, content, author, community): Promise<string |void> {
+    public async create(title, content, author, community, imageUrls): Promise<string |void> {
         return new Promise((resolve, reject) => {
             fs.readFile(COMMUNITY_FILE_PATH, 'utf-8', (err, data) => {
                 if (err && err.code !== 'ENOENT') {
