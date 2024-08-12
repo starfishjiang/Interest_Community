@@ -1,37 +1,39 @@
 import React, { useState } from 'react';
 
-const base = "http://127.0.0.1:7002/api/register"
+const base = "http://127.0.0.1:7001/api/register"
 
 const Register = ({ onRegister }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleRegister = async () => {
-    console.log("handleRegister");
-    try {
-      const response = await fetch(base, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      if (response.ok) {
-        // const newUser = await response.json();
-        // onRegister(newUser); // Assuming `onRegister` is a callback to handle successful registration
-        if (data.success) { 
-            console.log('Register succeed');
-            onLogin(data.data); 
-          } else {
-            console.error(`Register failed: ${data.message}`);
+    if(username && password){
+        try {
+            const response = await fetch(base, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ username, password }),
+            });
+      
+            if (response.ok) {
+              // const newUser = await response.json();
+              // onRegister(newUser); // Assuming `onRegister` is a callback to handle successful registration
+              if (data.success) { 
+                  console.log('Register succeed');
+                  onLogin(data.data); 
+                } else {
+                  console.error(`Register failed: ${data.message}`);
+                }
+            } else {
+              console.error('Register failed');
+            }
+          } catch (error) {
+            console.error('User already exists.', error);
           }
-      } else {
-        console.error('Register failed');
-      }
-    } catch (error) {
-      console.error('User already exists.', error);
     }
+    
   };
 
   return (

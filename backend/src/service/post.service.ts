@@ -70,7 +70,7 @@ export class PostService {
         });
     }
 
-    public fetch(circleId): Promise<Post[] | null> {
+    public fetch(CommunityId): Promise<Post[] | null> {
         return new Promise((resolve, reject) => {
             fs.readFile(COMMUNITY_FILE_PATH, 'utf-8', (err, data) => {
                 if (err) {
@@ -85,7 +85,7 @@ export class PostService {
                 }
                 
                 let communuitylist = JSON.parse(data);
-                const foundCommunityIndex = communuitylist.findIndex(u => u.name === circleId);
+                const foundCommunityIndex = communuitylist.findIndex(u => u.name === CommunityId);
                 if (foundCommunityIndex === -1) {
                     console.log('Community not defined');
                     resolve(null);

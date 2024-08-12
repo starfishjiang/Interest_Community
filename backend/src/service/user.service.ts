@@ -12,7 +12,7 @@ export class UserService {
         return new Promise((resolve, reject) => {
             fs.readFile(USER_FILE_PATH, 'utf-8', (err, data) => {
                 if (err && err.code !== 'ENOENT') {
-                    console.error('读取用户文件失败:', err);
+                    console.error('Reading user file failed', err);
                     return reject(err);
                 }
                 let users = [];
@@ -25,10 +25,10 @@ export class UserService {
                     users.push({ username, password, activation : 0});
                     fs.writeFile(USER_FILE_PATH, JSON.stringify(users, null, 2), (writeErr) => {
                         if (writeErr) {
-                            console.error('写入用户文件失败:', writeErr);
+                            console.error('Writing user file failed', writeErr);
                             reject(writeErr);
                         } else {
-                            console.log('用户注册成功');
+                            console.log('Register succeed');
                             resolve(new User(username, password));
                         }
                     });
@@ -42,10 +42,10 @@ export class UserService {
             fs.readFile(USER_FILE_PATH, 'utf-8', (err, data) => {
                 if (err) {
                     if (err.code === 'ENOENT') {
-                        console.log('用户文件不存在，可能是第一次创建');
+                        console.log('User file not exist');
                         return resolve(null);
                     } else {
-                        console.error('读取用户文件失败:', err);
+                        console.error('Reading user file failed', err);
                         return reject(err);
                     }
                 }
@@ -68,10 +68,10 @@ export class UserService {
             fs.readFile(USER_FILE_PATH, 'utf-8', (err, data) => {
                 if (err) {
                     if (err.code === 'ENOENT') {
-                        console.log('用户文件不存在，可能是第一次创建');
+                        console.log('User file not exist');
                         return resolve(null);
                     } else {
-                        console.error('读取用户文件失败:', err);
+                        console.error('Reading user file failed:', err);
                         return reject(err);
                     }
                 }

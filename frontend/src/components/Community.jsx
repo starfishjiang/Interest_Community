@@ -8,7 +8,7 @@ const Community = ({ community, user, onCreate }) => {
   const [newPostTitle, setNewPostTitle] = useState('');
   const [newPostContent, setNewPostContent] = useState('');
 
-  const base = "http://127.0.0.1:7002/posts/fetch"
+  const base = "http://127.0.0.1:7001/posts/fetch"
   useEffect(() => {
     const fetchPosts = async () => {
       try {

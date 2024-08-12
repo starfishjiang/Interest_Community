@@ -4,7 +4,7 @@ import path = require('path');
 export default {
   keys: '1719990379385_8994',
   koa: {
-    port: 7002,
+    port: 7001,
   },
   webSocket: {},
   cors: {

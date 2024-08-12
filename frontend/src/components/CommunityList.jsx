@@ -1,9 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
 
-const base = "http://127.0.0.1:7002/community/fetch"
+const base = "http://127.0.0.1:7001/community/fetch"
 
-const CommunityList = ({ user, onSelectCircle }) => {
+const CommunityList = ({ user, onSelectCommunity }) => {
   const [Communities, setCommunities] = useState([]);
 
   useEffect(() => {
@@ -28,8 +28,8 @@ const CommunityList = ({ user, onSelectCircle }) => {
 
     fetchCommunities();
   }, [user]); 
-  const handleEnterCircle = (name) => {
-    onSelectCircle(name);
+  const handleEnterCommunity = (name) => {
+    onSelectCommunity(name);
   };
 
   return (
@@ -39,7 +39,7 @@ const CommunityList = ({ user, onSelectCircle }) => {
         {Communities.map((community, index) => (
           <li key={index}>
             {community.name+'  '}
-            <button onClick={() => handleEnterCircle(community.name)}>进入</button>
+            <button onClick={() => handleEnterCommunity(community.name)}>进入</button>
           </li>
         ))}
       </ul>

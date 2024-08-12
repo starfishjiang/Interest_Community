@@ -2,13 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import Login from './components/Login';
 import Register from './components/Register';
-import CreateCircle from './components/CreateCircle';
+import CreateCommunity from './components/CreateCommunity';
 import CommunityList from './components/CommunityList';
 import Community from './components/Community';
 import ActivationList from './components/ActivationList';
 import MyActivation from './components/MyActivation';
-import backgroundImage from './components/background.png';
 import * as util_request from './request/util.request'
+import './App.css'
 
 const App = () => {
   const [user, setUser] = useState(null); 
@@ -55,7 +55,7 @@ const App = () => {
     window.location.reload();
   };
 
-  const handleSelectCircle = (community) => {
+  const handleSelectCommunity = (community) => {
     sessionStorage.setItem(COMMUNITY_KEY, JSON.stringify(community));
     setCurrentCommunity(community); 
   };
@@ -93,57 +93,41 @@ const App = () => {
   })
 
   return (
-    <div
-     style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover', 
-        backgroundPosition: 'center', 
-        backgroundAttachment: 'fixed', 
-        height: '100vh', 
-        margin: 0, 
-        padding: 0, 
-        overflow: 'auto' 
-    }}
-    >
-      <h1>{title}{user ? `, ${user.name}` : ''}</h1>
-      {!user ? ( 
-        <div>
-          <Login onLogin={handleLogin} />
-          <Register />
-        </div>
-      ) : (!CurrentCommunity ? ( 
-          !myActivation ? ( 
-                    <div>
-          <button onClick={handleLogout} style={{ marginRight: '8px' }}>注销</button>
-          <button onClick={handlemyActivation}>我的活跃度</button>
-          <CreateCircle  onCreateCircle={handleCreate}/>
-          <CommunityList user={user} onSelectCircle={handleSelectCircle} />
-          </div>
-          ) : (
-            <div>
-              <button onClick={handleReturnmyActivation}>返回</button>
-              <MyActivation username={user.name} />
-            </div>
-          )
+        <div className="container">
+            <h1>{title}{user ? `, ${user.name}` : ''}</h1>
 
-      ) : (
-        !Activation ? ( 
-            <div>
-            <button onClick={handleReturn} style={{ marginRight: '8px' }}>返回</button>
-            <button onClick={handleActivation}>活跃度排行</button>
-            <Community community={CurrentCommunity} user={user} onCreate = {handleCreate}/>
-          </div>
-          ) : (
-            <div>
-              <button onClick={handleReturn}>返回</button>
-              <ActivationList community={CurrentCommunity} user={user} />
-            </div>
-          )
-        
-      )
-        
-      )}
-    </div>
+            {!user ? (
+                <div className="login-register-container">
+                    <Login onLogin={handleLogin} />
+                    <Register />
+                </div>
+            ) : !CurrentCommunity ? (
+                !myActivation ? (
+                    <div className="list-container">
+                        <button onClick={handleLogout}>注销</button>
+                        <button onClick={handlemyActivation}>我的活跃度</button>
+                        <CreateCommunity onCreateCommunity={handleCreate} />
+                        <CommunityList user={user} onSelectCommunity={handleSelectCommunity} />
+                    </div>
+                ) : (
+                    <div className="list-container">
+                        <button onClick={handleReturnmyActivation}>返回</button>
+                        <MyActivation username={user.name} />
+                    </div>
+                )
+            ) : !Activation ? (
+                <div className="community-container">
+                    <button onClick={handleReturn}>返回</button>
+                    <button onClick={handleActivation}>活跃度排行</button>
+                    <Community community={CurrentCommunity} user={user} onCreate={handleCreate} />
+                </div>
+            ) : (
+                <div className="activation-container">
+                    <button onClick={handleReturn}>返回</button>
+                    <ActivationList community={CurrentCommunity} user={user} />
+                </div>
+            )}
+        </div>
   );
 };
 
