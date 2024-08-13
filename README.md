@@ -1,3 +1,6 @@
+# Github地址
+    https://github.com/starfishjiang/Interest_Community.git
+
 # 运行方式
     在根目录终端下输入pm2 start ecosystem.config.js启动，然后在frontend文件夹下终端输入npm start获取前端的访问链接。
     若启动异常可使用npm run dev 分别启动前后端。
