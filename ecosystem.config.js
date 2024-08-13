@@ -3,7 +3,7 @@ module.exports = {
       {
         name: 'frontend',
         script: 'npm', 
-        args: 'start',
+        args: 'run dev',
         cwd: './frontend',
         watch: true,
         // env: {
